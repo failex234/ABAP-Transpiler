@@ -1,5 +1,5 @@
 # ABAP-Transpiler
-A very simple WIP JavaScript to ABAP Transpiler written in Python.
+A very simple WIP JavaScript to ABAP Transpiler written in Python. This is just a transpiler not a syntactic or lexical error checker.
 
 Yes, a very strange idea but why not?
 
