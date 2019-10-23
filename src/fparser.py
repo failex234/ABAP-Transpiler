@@ -1,4 +1,5 @@
 import misc
+import re
 class Parser:
     """The JavaScript Code Parser"""
     _filecontents = ''
@@ -13,6 +14,7 @@ class Parser:
 
     def parse(self):
         for line in self._filecontents:
+            line = re.sub("^\s+", "", line)
             linetype = misc.get_line_type(line)
             # We should know what type of instruction we're dealing with so that we can translate it
             if (len(linetype) == 0):
