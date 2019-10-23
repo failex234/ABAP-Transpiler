@@ -21,7 +21,8 @@ class Parser:
                 pass
             else:
                 firsttype = linetype
+                print(firsttype)
                 if (firsttype == 'VAR_DECLARATION_SET'):
-                    print(misc.get_var_contents(line))
+                    #print(misc.get_var_contents(line))
                     pass
         pass

@@ -37,25 +37,45 @@ determine the instruction type of a line
 def get_line_type(line):
     if (re.match("^\\s{0,}(let|var)\\s+[^=\\s]+;\\s{0,}$", line) != None):
         return 'VAR_DECLARATION'
-    elif (re.match("^\\s{0,}(let|var|const)\\s+.+\\s{0,}=\\s{0,}.+;\\s{0,2}", line) != None):
+    elif (re.match("^\\s{0,}(let|var|const)\\s+.+\\s{0,}=\\s{0,}.+;\\s{0,2}$", line) != None):
         return 'VAR_DECLARATION_SET'
+    elif (re.match("^\\s{0,}.+\\s{0,}=\\s{0,}.+;\\s{0,2}$", line) != None):
+        return 'VAR_SET'
     elif (re.match("^\\/\\/.{0,}", line) != None):
         return 'COMMENT_SINGLELINE'
-    elif (re.match("^\\s{0,}.+\\..+\\(.{0,}\\);\\s{0,}", line) != None):
+    elif (re.match("^\\s{0,}.+\\..+\\(.{0,}\\);\\s{0,}$", line) != None):
         # We can't determine if we wanted to call an instance or static method (ABAP uses different syntax for both)
         return 'CLASS_FUNCTION_CALL'
-    elif (re.match("^\\s{0,}.+\\(.{0,}\\);\\s{0,}", line) != None):
+    elif (re.match("^\\s{0,}.+\\(.{0,}\\);\\s{0,}$", line) != None):
         return 'FUNCTION_CALL'
-    elif (re.match("^\\s{0,}(\\{|\\})\\s{0,}", line) != None):
+    elif (re.match("^\\s{0,}(\\{|\\})\\s{0,}$", line) != None):
         return 'BRACKET_ISOLATED'
-    elif (re.match("^\\s{0,}function\\s+.+\\(.{0,}\\)\\s{0,}", line) != None):
+    elif (re.match("^\\s{0,}function\\s+.+\\(.{0,}\\)\\s{0,}$", line) != None):
         return 'FUNCTION_DEFINITION'
     elif (re.match("^\\s{0,}if\\s{0,}\\(.+\\)", line) != None):
         return 'IF_STATEMENT'
-    elif (re.match("^.{0,}else.{0,}", line) != None):
-        return 'ELSE_STATEMENT'
     elif (re.match("^\\s{0,}.{0,}else\\s+if\\s{0,}\\(.+\\)", line) != None):
         return 'IF_ELSE_STATEMENT'
+    elif (re.match("^.{0,}else.{0,}", line) != None):
+        return 'ELSE_STATEMENT'
+    elif (re.match("^\\s{0,}switch\\s{0,}\\(.+\\)\\s{0,}\\{?\\s{0,}$", line) != None):
+        return 'SWITCH_STATEMENT'
+    elif (re.match("^\\s{0,}case\\s{0,}.+\\:\\s{0,}$", line) != None):
+        return 'SWITCH_CASE_STATEMENT'
+    elif (re.match("^\\s{0,}default:\\s{0,}$", line) != None):
+        return 'SWITCH_DEFAULT_STATEMENT'
+    elif (re.match("^\\s{0,}break;\\s{0,}$", line) != None):
+        return 'BREAK_STATEMENT'
+    elif (re.match("^\\s{0,}do\\s{0,}\\{?\\s{0,}$", line) != None):
+        return 'DO_STATEMENT'
+    elif (re.match("^\\s{0,}\\}?\\s{0,}while\\s{0,}\\(.+\\)\\s{0,}\\{?\\s{0,}$", line) != None):
+        return 'WHILE_LOOP'
+    elif (re.match("^\\s{0,}for\\s{0,}\\(.{0,};.{0,};.{0,}\\)\\s{0,}\\{?\\s{0,}$", line) != None):
+        return 'FOR_LOOP'
+    elif (re.match("^\\s{0,}continue;\\s{0,}$", line) != None):
+        return 'CONTINUE_STATEMENT'
+    elif (re.match("^\\s{0,}$", line) != None):
+        return 'EMPTY'
     return 'UNKNOWN'
 
 """
